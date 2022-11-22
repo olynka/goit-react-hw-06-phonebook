@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { nanoid } from "nanoid";
-import { persistStore, persistReducer } from 'redux-persist'
+import {persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage';
 
 export const counterSlice = createSlice({

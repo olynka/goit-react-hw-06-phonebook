@@ -1,6 +1,4 @@
-import { useState, useEffect } from "react";
-  import ContactList from './ContactList/ContactList';
-import { nanoid } from 'nanoid';
+import ContactList from './ContactList/ContactList';
 import ContactForm from './Form/Form';
 import Filter from './filter/filter';
 import { Block, Totle } from './AppStyled';
@@ -37,11 +35,6 @@ export const App = () => {
     return contacts.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
   }
 
-
- 
-
-
-  
   return (
   <>
       <Block>
