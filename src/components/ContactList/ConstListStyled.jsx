@@ -10,7 +10,6 @@ margin-right: auto;
 margin-left: auto;
 padding: 20px; 
 border-radius: 4px;
-border: 1px solid #337AB7;
 
 
 `
