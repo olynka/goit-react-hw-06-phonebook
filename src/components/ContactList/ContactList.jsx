@@ -1,31 +1,31 @@
 import { UL } from "./ConstListStyled";
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { deleteContact } from 'redux/contactsSlice';
 import { Button, List, P } from "./ConstListStyled";
+import { getFilter } from 'redux/filterSlice';
+import { getContacts } from 'redux/contactsSlice';
 
-export default function ContactList({contacts}) {
+export default function ContactList() {
   const dispatch = useDispatch();
-  
-    return (
-        <UL>
-            {contacts.map(({ id, name, number }) => (
-                <List key={id}>
-                    <P>{name} : {number}
-                    </P>
-                    <Button type="button" onClick={() => dispatch(deleteContact({id}))}>Delete</Button>
-                </List>
-            ))}
-        </UL>
-    );
-}
+  const filter = useSelector(getFilter);
+  const contacts = useSelector(getContacts);
 
-  // const elements = contacts.map(({ name, number, id }) => {
-  //   return (
-  //     <List key={id}>
-  //     <P>{name} : {number}</P>
-  //       <Button onClick={() => dispatch(deleteContact({id}))}>Delete</Button>
-  //     </List>
-  //   );
-  // });
-//   // return <UL>{elements}</UL>;
-// }
+
+    const getVisibleContacts = () => {
+    const normalizedFilter = filter.toLowerCase();
+    return contacts.filter(({ name }) => name.toLowerCase().includes(normalizedFilter));
+  }
+  const contact = getVisibleContacts();
+
+
+  
+  const elements = contact.map(({ name, number, id }) => {
+    return (
+      <List key={id}>
+      <P>{name} : {number}</P>
+        <Button onClick={() => dispatch(deleteContact({id}))}>Delete</Button>
+      </List>
+    );
+  });
+  return <UL>{elements}</UL>;
+}

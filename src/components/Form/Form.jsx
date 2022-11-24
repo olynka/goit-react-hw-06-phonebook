@@ -1,10 +1,13 @@
 import React from "react";
 import { nanoid } from "nanoid";
 import { useState } from "react";
-import { Label, Button, Input, Form } from "./FormStyled"
+import { Label, Button, Input, Form } from "./FormStyled";
+import { addContact, getContacts } from 'redux/contactsSlice';
+import { useSelector, useDispatch } from 'react-redux';
 
-
-export default function ContactForm({ onSubmit }) {
+export default function ContactForm() {
+  const contacts = useSelector(getContacts);
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -30,11 +33,21 @@ const handleSubmit = e => {
     const contact = {
       name,
      number,
-    };
-    onSubmit(contact);
+  };
+  setName('');
+    setNumber('');
+  // onSubmit(contact);
+   if (duplicateContact(contact)) {
+      return alert(`"${contact}" is already in your Phonebook`);
+  };
+  dispatch(addContact(contact));
    
   };
-   
+   const duplicateContact = (contact) => {
+  const result = contacts.find(item => item.name === contact.name);
+    return result;
+  }
+
 
   
   return  (

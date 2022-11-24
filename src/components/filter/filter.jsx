@@ -1,10 +1,24 @@
 import PropTypes from 'prop-types';
 import { nanoid } from "nanoid";
-import { Forms,Label,Input  } from './filterStyled';
+import { Forms, Label, Input } from './filterStyled';
+import { changeFilter} from 'redux/filterSlice';
+import { useSelector, useDispatch } from 'react-redux';
+import Notification from 'components/Notification/Notification';
+ import {getContacts } from 'redux/contactsSlice';
 
 const filterInputId = nanoid(4);
 
-export default function Filter({value, onChange}) {
+export default function Filter({ value, onChange }) {
+  const dispatch = useDispatch();
+   const contacts = useSelector(getContacts);
+      const onChangeFilter = (e) => {
+    dispatch(changeFilter(e.currentTarget.value));
+  }
+  if (contacts.length === 0) {
+   return <Notification />
+  }
+    
+
     return (
         <Forms>
             <Label htmlFor={filterInputId}>Find contact by name
@@ -14,7 +28,7 @@ export default function Filter({value, onChange}) {
                     id={filterInputId}
                     pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
                     value={value}
-                    onChange={onChange}
+                    onChange={onChangeFilter}
                 />
             </Label>
         </Forms>
